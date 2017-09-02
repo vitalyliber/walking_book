@@ -1,26 +1,47 @@
-// Run this example by adding <%= javascript_pack_tag 'hello_react' %> to the head of your layout file,
+// Run this example by adding <%= javascript_pack_tag 'main' %> to the head of your layout file,
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import {
+  ApolloClient,
+  ApolloProvider,
+  createBatchingNetworkInterface,
+} from 'react-apollo'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
+import bookDetailView from './views/books/bookDetailView'
+import bookNewView from './views/books/bookNewView'
+import bookListView from './views/books/bookListView'
+import bookEditView from './views/books/bookEditView'
+import homeView from './views/homeView'
+import notFoundView from './views/notFoundView'
 
-Hello.defaultProps = {
-  name: 'David'
-}
 
-Hello.propTypes = {
-  name: PropTypes.string
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <Hello name="React" />,
-    document.body.appendChild(document.createElement('div')),
-  )
+const networkInterface = createBatchingNetworkInterface({
+  uri: '/gql/',
+  batchInterval: 10,
 })
+
+const client = new ApolloClient({
+  networkInterface: networkInterface,
+})
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <Router>
+      <div>
+        <Switch>
+          <Route exact path="/" component={homeView}/>
+          <Route exact path="/books" component={bookListView}/>
+          <Route exact path="/books/:id" component={bookDetailView}/>
+          <Route exact path="/books/edit" component={bookEditView}/>
+          <Route exact path="/books/new" component={bookNewView}/>
+          <Route path="*" component={notFoundView} />
+        </Switch>
+      </div>
+    </Router>
+  </ApolloProvider>,
+  document.body.appendChild(document.createElement('div')),
+)
