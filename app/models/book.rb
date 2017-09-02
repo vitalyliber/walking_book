@@ -7,4 +7,6 @@ class Book < ApplicationRecord
   has_many   :histories
   has_many   :users, through: :histories
 
+  validates_presence_of :title, :author_id
+
 end
