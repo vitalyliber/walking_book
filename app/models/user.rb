@@ -8,4 +8,6 @@ class User < ApplicationRecord
   has_many :histories
   has_many :books, through: :histories
 
+  validates_presence_of :first_name
+
 end
