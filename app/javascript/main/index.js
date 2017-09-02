@@ -18,6 +18,9 @@ import bookEditView from './views/books/bookEditView'
 import homeView from './views/homeView'
 import notFoundView from './views/notFoundView'
 
+import 'element-theme-default'
+// import { Layout, Button } from 'element-react' #example
+
 
 const networkInterface = createBatchingNetworkInterface({
   uri: '/gql/',
