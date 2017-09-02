@@ -1,6 +1,7 @@
 class Book < ApplicationRecord
 
-  has_many :histories
-  has_many :users, through: :histories
+  belongs_to :author
+  has_many   :histories
+  has_many   :users, through: :histories
 
 end
