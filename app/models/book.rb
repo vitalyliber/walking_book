@@ -8,6 +8,6 @@ class Book < ApplicationRecord
   has_many   :histories
   has_many   :users, through: :histories
 
-  validates_presence_of :title, :author_id
+  validates_presence_of :title, :description, :category, :author_id
 
 end

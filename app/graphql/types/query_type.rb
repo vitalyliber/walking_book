@@ -16,6 +16,11 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ->(obj, args, ctx) {Book.all.order(id: :desc)}
   end
 
+  field :authors, types[Types::AuthorType] do
+    description "Author field"
+    resolve ->(obj, args, ctx) {Author.all.order(id: :desc)}
+  end
+
   field :me, Types::UserType do
     description "the current user"
     resolve ->(obj, args, ctx) {ctx[:current_user]}
