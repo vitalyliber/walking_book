@@ -4,6 +4,7 @@ class Book < ApplicationRecord
   enum category: [:fiction, :education, :children, :other]
 
   belongs_to :author
+  belongs_to :user
   has_many   :histories
   has_many   :users, through: :histories
 

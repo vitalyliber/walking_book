@@ -5,9 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
 
-  has_many :histories
-  has_many :books, through: :histories
+  has_many :books
 
-  validates_presence_of :first_name
+  validates_presence_of :first_name, :last_name
 
 end

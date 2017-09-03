@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 import {
   ApolloClient,
   ApolloProvider,
-  createBatchingNetworkInterface,
+  createNetworkInterface,
 } from 'react-apollo'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
@@ -22,9 +22,14 @@ import 'element-theme-default'
 // import { Layout, Button } from 'element-react' #example
 
 
-const networkInterface = createBatchingNetworkInterface({
-  uri: '/gql/',
-  batchInterval: 10,
+const networkInterface = createNetworkInterface({
+  uri: '/graphql',
+  opts: {
+    credentials: 'same-origin',
+    headers: {
+      'X-CSRF-Token': document.getElementsByName('csrf-token')[0].content || '',
+    }
+  },
 })
 
 const client = new ApolloClient({
