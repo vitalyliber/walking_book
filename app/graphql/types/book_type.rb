@@ -11,5 +11,6 @@ module Types
     field :authorId, !types.Int, property: :author_id
     field :author, !AuthorType
     field :user, !UserType
+    field :histories, !types[Types::HistoryType]
   end
 end
