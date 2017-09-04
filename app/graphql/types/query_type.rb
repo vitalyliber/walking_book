@@ -1,3 +1,5 @@
+PER_PAGE = 20
+
 Types::QueryType = GraphQL::ObjectType.define do
   name "Query"
   # Add root-level fields here.
@@ -5,7 +7,18 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :books, types[Types::BookType] do
     description "Book field"
-    resolve ->(obj, args, ctx) {Book.all.order(id: :desc)}
+    argument :page, !types.Int
+    resolve ->(obj, args, ctx) {
+      Book.eager_load(:user, :author).paginate(
+          page: args['page'], per_page: PER_PAGE
+      ).order(id: :desc)
+    }
+  end
+
+  field :books_total_pages do
+    type types.Int
+    description 'Return number of posts'
+    resolve -> (object, arguments, context) { Book.paginate(per_page: PER_PAGE, page: 1).total_pages }
   end
 
   field :book do
