@@ -1,5 +1,3 @@
-PER_PAGE = 20
-
 Types::QueryType = GraphQL::ObjectType.define do
   name "Query"
   # Add root-level fields here.
@@ -7,11 +5,32 @@ Types::QueryType = GraphQL::ObjectType.define do
 
   field :books, types[Types::BookType] do
     description "Book field"
-    argument :page, !types.Int
+    argument :cursor, !types.Int
+    argument :first, !types.Int
     resolve ->(obj, args, ctx) {
-      Book.eager_load(:user, :author).paginate(
-          page: args['page'], per_page: PER_PAGE
-      ).order(id: :desc)
+      resolve_books(args)
+    }
+  end
+
+  field :cursor do
+    type types.Int
+    description "Book field"
+    argument :type, !types.String
+    argument :first, !types.Int
+    resolve ->(obj, args, ctx) {
+      if args[:type].eql? 'books'
+        resolve_books(args)&.last&.id || 0
+      end
+    }
+  end
+
+  field :more_books, Types::MoreBooksType do
+    description "More books"
+    argument :cursor, !types.Int
+    argument :first, !types.Int
+    resolve ->(obj, args, ctx) {
+      books = resolve_more_books args
+      OpenStruct.new({books: books, cursor: books&.last&.id || 0})
     }
   end
 
@@ -43,4 +62,12 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ->(obj, args, ctx) {ctx[:current_user]&.books}
   end
 
+end
+
+def resolve_more_books args
+  Book.includes(:user, :author).where('id < ?', args[:cursor]).order(id: :desc).first(args[:first])
+end
+
+def resolve_books args
+  Book.includes(:user, :author).order(id: :desc).first(args[:first])
 end
