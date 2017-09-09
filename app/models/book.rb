@@ -13,6 +13,8 @@ class Book < ApplicationRecord
   after_update :create_history
   after_create :create_history
 
+  mount_uploader :cover, CoverUploader
+
   private
 
   def create_history
