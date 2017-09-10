@@ -1,24 +1,51 @@
-# README
+# Walking Book
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+**ruby version:** 2.3.4
 
-Things you may want to cover:
+**gemset:** walking_book
 
-* Ruby version
+## How to start application for developing
 
-* System dependencies
+Start postgres container:
 
-* Configuration
+```
+docker-compose up
+```
 
-* Database creation
+Create migrations:
 
-* Database initialization
+```
+rake db:create db:migrate
+```
 
-* How to run the test suite
+Start your Rails server:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+rails start
+```
 
-* Deployment instructions
+Start webpack dev server:
 
-* ...
+```
+./bin/webpack-dev-server
+
+```
+
+## How to start system tests
+
+```
+rake assets:precompile
+rails test:system
+```
+
+## How to start common tests
+
+```
+rails test
+```
+
+## How to add a new package
+
+```
+yarn add package-name
+```
