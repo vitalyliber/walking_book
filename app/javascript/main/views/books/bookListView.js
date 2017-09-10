@@ -40,7 +40,6 @@ class bookListView extends Component {
 
   render() {
     const {data} = this.props
-    console.log('data', this.props)
     if (data.loading) {
       return <div>Loading...</div>
     }
@@ -72,7 +71,6 @@ const bookListView1 = graphql(query, {
         booksConnection,
         pageInfo,
         loadMoreEntries: () => {
-          // console.log(books)
           return fetchMore({
             query: MoreBooksQuery,
             variables: {
