@@ -31,33 +31,6 @@ Types::QueryType = GraphQL::ObjectType.define do
     }
   end
 
-  field :books, types[Types::BookType] do
-    description "Book field"
-    argument :cursor, !types.Int
-    argument :first, !types.Int
-    resolve ->(obj, args, ctx) {
-      resolve_books(args)
-    }
-  end
-
-  field :cursor do
-    type types.Int
-    description "Book field"
-    argument :type, !types.String
-    argument :first, !types.Int
-    resolve ->(obj, args, ctx) {
-      if args[:type].eql? 'books'
-        resolve_books(args)&.last&.id || 0
-      end
-    }
-  end
-
-  field :books_total_pages do
-    type types.Int
-    description 'Return number of posts'
-    resolve -> (object, arguments, context) { Book.paginate(per_page: PER_PAGE, page: 1).total_pages }
-  end
-
   field :book do
     type Types::BookType
     description 'Find a Book by id'
@@ -75,9 +48,9 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ->(obj, args, ctx) {ctx[:current_user]}
   end
 
-  field :my_books, types[Types::BookType] do
+  field :myBooks, types[Types::BookType] do
     description "Book field"
-    resolve ->(obj, args, ctx) {ctx[:current_user]&.books}
+    resolve ->(obj, args, ctx) {ctx[:current_user]&.books || []}
   end
 
 end
@@ -95,8 +68,4 @@ def resolve_books_connection args
   end
 
   books
-end
-
-def resolve_books args
-  Book.includes(:user, :author).order(id: :desc).first(args[:first])
 end
