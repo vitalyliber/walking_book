@@ -33,4 +33,14 @@ class BookTest < ActiveSupport::TestCase
     assert_not book.save
   end
 
+  test 'should find 2 books within 30 kms and three books within 40kms' do
+    user = create :user
+    create :book, lat: 54.8384426, lng: 83.1002884, user: user #Berdsk
+    create :book, lat: 54.7575249, lng: 83.0983643, user: user #Akadem
+    create :book, lat: 55.0228552, lng: 82.9303769, user: user #Novosibirsk
+
+    assert_equal Book.within(30, :origin => [54.7536625,83.1020964]).count, 2
+    assert_equal Book.within(40, :origin => [54.7536625,83.1020964]).count, 3
+  end
+
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170909041540) do
+ActiveRecord::Schema.define(version: 20170912140639) do
 
   create_table "authors", force: :cascade do |t|
     t.string "first_name"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20170909041540) do
     t.integer "author_id"
     t.integer "user_id"
     t.string "cover"
+    t.float "lat"
+    t.float "lng"
+    t.index ["lat", "lng"], name: "index_books_on_lat_and_lng"
     t.index ["user_id"], name: "index_books_on_user_id"
   end
 
