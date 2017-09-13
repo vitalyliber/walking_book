@@ -7,6 +7,8 @@ Types::QueryType = GraphQL::ObjectType.define do
     description "Book field"
     argument :after, types.Int
     argument :first, types.Int
+    argument :lat, types.Float
+    argument :lng, types.Float
     resolve ->(obj, args, ctx) {
 
       books = resolve_books_connection(args)
@@ -57,6 +59,11 @@ end
 
 def resolve_books_connection args
   books = Book.includes(:user, :author)
+
+  if args[:lat].present? and args[:lng].present?
+    books = books.within(5, :origin => [args[:lat], args[:lng]])
+  end
+
   if args[:after].present?
     books = books.where('id < ?', args[:after])
   end
