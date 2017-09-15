@@ -53,7 +53,7 @@ Types::QueryType = GraphQL::ObjectType.define do
 end
 
 def resolve_books_connection args
-  books = Book.includes(:user, :author)
+  books = Book.includes(:user)
 
   if args[:lat].present? and args[:lng].present?
     books = books.within(5, :origin => [args[:lat], args[:lng]])
