@@ -45,11 +45,6 @@ Types::QueryType = GraphQL::ObjectType.define do
     resolve ->(obj, args, ctx) {ctx[:current_user]}
   end
 
-  field :myBooks, types[Types::BookType] do
-    description "Book field"
-    resolve ->(obj, args, ctx) {ctx[:current_user]&.books || []}
-  end
-
 end
 
 def resolve_books_connection args
