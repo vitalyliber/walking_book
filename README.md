@@ -49,3 +49,8 @@ rails test
 ```
 yarn add package-name
 ```
+
+## On/Off caching in dev mode
+```
+rails dev:cache
+```
