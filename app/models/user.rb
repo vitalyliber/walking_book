@@ -9,4 +9,14 @@ class User < ApplicationRecord
 
   validates_presence_of :first_name, :last_name
 
+  after_update :update_books_coordinates
+
+  private
+
+  def update_books_coordinates
+    if saved_change_to_lat? or saved_change_to_lng?
+      books.update_all(lng: lng, lat: lat)
+    end
+  end
+
 end

@@ -10,18 +10,24 @@ harry_potter = User.create({first_name: 'Harry', last_name: 'Potter', email: 'ha
 severus_snape = User.create({first_name: 'Severus', last_name: 'Snape', email: 'severus.snape@gmail.com', password: '11111111'})
 roland_deschain = User.create({first_name: 'Roland', last_name: 'Deschain', email: 'roland.deschain@gmail.com', password: '11111111'})
 
-harry_potter.update(confirmed_at: Time.now)
-severus_snape.update(confirmed_at: Time.now)
-severus_snape.update(confirmed_at: Time.now)
+academ_colour_prospect_lat = 54.8369606
+academ_colour_prospect_lng = 83.0975356
+harry_potter.update(confirmed_at: Time.now, lat: academ_colour_prospect_lat, lng: academ_colour_prospect_lng)
 
-rowling = Author.create({first_name: 'Joanne', last_name: 'Rowling'})
-king = Author.create({first_name: 'Stephen', last_name: 'King'})
+berdsk_colour_prospect_lat = 54.7572081
+berdsk_colour_prospect_lng = 83.103093
+severus_snape.update(confirmed_at: Time.now, lat: berdsk_colour_prospect_lat, lng: berdsk_colour_prospect_lng)
 
-description = "In June XXXX, Bloomsbury published this book with an initial print run of 1,000 copies, 500 of which were distributed to libraries. "
+rowling = 'Joanne Rowling'
+king = 'Stephen King'
+
+description = "In June XXXX, Bloomsbury published this book with an initial print run of 1,000 copies, 500 of which were distributed to libraries."
+
+
 
 Book.create([
     {
-        author: rowling,
+        author_name: rowling,
         user: harry_potter,
         title: "Harry Potter and the Philosopher's Stone",
         description: description,
@@ -29,7 +35,7 @@ Book.create([
         status: :available
     },
     {
-        author: rowling,
+        author_name: rowling,
         user: harry_potter,
         title: "Harry Potter and the Chamber of Secrets",
         description: description,
@@ -37,7 +43,7 @@ Book.create([
         status: :available
     },
     {
-        author: rowling,
+        author_name: rowling,
         user: harry_potter,
         title: "Harry Potter and the Prisoner of Azkaban",
         description: description,
@@ -45,7 +51,7 @@ Book.create([
         status: :available
     },
     {
-        author: rowling,
+        author_name: rowling,
         user: severus_snape,
         title: "Harry Potter and the Goblet of Fire",
         description: description,
@@ -53,7 +59,7 @@ Book.create([
         status: :available
     },
     {
-        author: rowling,
+        author_name: rowling,
         user: severus_snape,
         title: "Harry Potter and the Order of the Phoenix",
         description: description,
@@ -61,7 +67,7 @@ Book.create([
         status: :available
     },
     {
-        author: rowling,
+        author_name: rowling,
         user: severus_snape,
         title: "Harry Potter and the Half-Blood Prince",
         description: description,
@@ -69,7 +75,7 @@ Book.create([
         status: :available
     },
     {
-        author: rowling,
+        author_name: rowling,
         user: severus_snape,
         title: "Harry Potter and the Deathly Hallows",
         description: description,
@@ -77,7 +83,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "Misery",
         description: description,
@@ -85,7 +91,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "Four Past Midnight",
         description: description,
@@ -93,7 +99,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "Duma Key",
         description: description,
@@ -101,7 +107,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "The Green Mile",
         description: description,
@@ -109,7 +115,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "Just After Sunset",
         description: description,
@@ -117,7 +123,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "Black House",
         description: description,
@@ -125,7 +131,7 @@ Book.create([
         status: :available
     },
     {
-        author: king,
+        author_name: king,
         user: roland_deschain,
         title: "The Man in the Black Suit",
         description: description,

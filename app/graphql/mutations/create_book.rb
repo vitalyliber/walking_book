@@ -5,7 +5,7 @@
 #         id
 #         title
 #         description
-#         authorId
+#         authorName
 #         status
 #         user{
 #           id
@@ -23,16 +23,16 @@ Mutations::CreateBook = GraphQL::Relay::Mutation.define do
 
   input_field :title, !types.String
   input_field :description, !types.String
-  input_field :author_id, !types.Int
+  input_field :authorName, !types.String
   input_field :category, !types.String
 
   resolve ->(obj, args, ctx) {
     book = Book.new(
         title: args[:title],
         description: args[:description],
-        author_id: args[:author_id],
+        author_name: args[:authorName],
         category: args[:category],
-        user: ctx[:current_user]
+        user: ctx[:current_user],
     )
     if book.save
       { book: book }

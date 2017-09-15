@@ -8,8 +8,7 @@ module Types
     field :description, !types.String
     field :category, !types.String
     field :status, !types.String
-    field :authorId, !types.Int, property: :author_id
-    field :author, !AuthorType
+    field :authorName, !types.Int, property: :author_name
     field :user, !UserType
     field :histories, !types[Types::HistoryType]
   end
