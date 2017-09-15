@@ -18,6 +18,10 @@ berdsk_colour_prospect_lat = 54.7572081
 berdsk_colour_prospect_lng = 83.103093
 severus_snape.update(confirmed_at: Time.now, lat: berdsk_colour_prospect_lat, lng: berdsk_colour_prospect_lng)
 
+novosibirsk_colour_prospect_lat = 55.0224099
+novosibirsk_colour_prospect_lng = 82.9544365
+severus_snape.update(confirmed_at: Time.now, lat: novosibirsk_colour_prospect_lat, lng: novosibirsk_colour_prospect_lng)
+
 rowling = 'Joanne Rowling'
 king = 'Stephen King'
 
