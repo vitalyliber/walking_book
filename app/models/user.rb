@@ -6,6 +6,7 @@ class User < ApplicationRecord
          :confirmable
 
   has_many :books
+  has_many :histories
 
   validates_presence_of :first_name, :last_name
 
