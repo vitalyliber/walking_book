@@ -9,6 +9,7 @@ Types::QueryType = GraphQL::ObjectType.define do
     argument :first, types.Int
     argument :lat, types.Float
     argument :lng, types.Float
+    argument :query, types.String
     resolve ->(obj, args, ctx) {
 
       books = resolve_books_connection(args)
@@ -52,6 +53,10 @@ def resolve_books_connection args
 
   if args[:lat].present? and args[:lng].present?
     books = books.within(5, :origin => [args[:lat], args[:lng]])
+  end
+
+  if args[:query].present?
+    books = books.search_by_book_info(args[:query])
   end
 
   if args[:after].present?

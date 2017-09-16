@@ -43,4 +43,20 @@ class BookTest < ActiveSupport::TestCase
     assert_equal 3, Book.within(40, :origin => [54.7536625,83.1020964]).count
   end
 
+  test 'should search books by title and author' do
+    user = create :user, lat: 0.0, lng: 0.0
+
+    create :book, user: user, title: 'Stranger Things', author_name: 'Duffer Brothers'
+    create :book, user: user, title: 'Macabre stories', author_name: 'Howard Phillips Lovecraft'
+    create :book, user: user, title: 'The Call of Cthulhu', author_name: 'Howard Phillips Lovecraft'
+
+    # search by title
+    assert_equal 1, Book.search_by_book_info('Stranger').count
+    assert_equal 1, Book.search_by_book_info('Macabre stories').count
+
+    # search by author
+    assert_equal 2, Book.search_by_book_info('Lovecraft').count
+    assert_equal 1, Book.search_by_book_info('Duffer Brothers').count
+  end
+
 end

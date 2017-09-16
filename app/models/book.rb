@@ -1,5 +1,8 @@
 class Book < ApplicationRecord
 
+  include PgSearch
+  pg_search_scope :search_by_book_info, :against => [:title, :author_name]
+
   enum status: [:available, :busy]
   enum category: [:fiction, :education, :children, :other]
 
