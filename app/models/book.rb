@@ -30,7 +30,7 @@ class Book < ApplicationRecord
   end
 
   def fill_coordinates
-    if user.lat.present? and user.lng.present?
+    if user.present? and user.lat.present? and user.lng.present?
       self.lat = user.lat
       self.lng = user.lng
     else
