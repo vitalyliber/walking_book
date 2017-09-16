@@ -25,3 +25,5 @@
 /public/packs-test
 /node_modules
 .idea
+/public/images/
+/public/uploads/
