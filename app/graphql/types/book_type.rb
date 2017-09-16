@@ -8,6 +8,17 @@ module Types
     field :description, !types.String
     field :category, !types.String
     field :status, !types.String
+    field :cover do
+      type !types.String
+      argument :size, Types::CoverEnum
+      resolve -> (obj, args, ctx) {
+        if args[:size] == 'original'
+          obj.cover.url
+        else
+          obj.cover.url(args[:size])
+        end
+      }
+    end
     field :authorName, !types.String, property: :author_name
     field :user, !UserType
     field :histories, !types[Types::HistoryType]

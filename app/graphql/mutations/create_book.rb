@@ -1,5 +1,5 @@
 # mutation createBook{
-#   createBook(input: { title: "Hello", author_id: 1, category: "fiction", description: "wow" })
+#   createBook(input: { title: "Hello", authorName: "One Man", category: "fiction", description: "wow" })
 #   {
 #       book{
 #         id
@@ -24,7 +24,7 @@ Mutations::CreateBook = GraphQL::Relay::Mutation.define do
   input_field :title, !types.String
   input_field :description, !types.String
   input_field :authorName, !types.String
-  input_field :category, !types.String
+  input_field :category, !Types::CategoryEnum
 
   resolve ->(obj, args, ctx) {
     book = Book.new(
