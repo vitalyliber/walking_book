@@ -13,9 +13,9 @@ module Types
       argument :size, Types::CoverEnum
       resolve -> (obj, args, ctx) {
         if args[:size] == 'original'
-          obj.cover.url
+          obj.image.file.url
         else
-          obj.cover.url(args[:size])
+          obj.image.file(args[:size])
         end
       }
     end
