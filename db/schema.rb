@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915154536) do
+ActiveRecord::Schema.define(version: 20170930125448) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "books", force: :cascade do |t|
     t.string "title"
@@ -20,10 +23,11 @@ ActiveRecord::Schema.define(version: 20170915154536) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
-    t.string "cover"
     t.float "lat"
     t.float "lng"
     t.string "author_name"
+    t.integer "image_id"
+    t.index ["image_id"], name: "index_books_on_image_id"
     t.index ["lat", "lng"], name: "index_books_on_lat_and_lng"
     t.index ["user_id"], name: "index_books_on_user_id"
   end
@@ -45,6 +49,12 @@ ActiveRecord::Schema.define(version: 20170915154536) do
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_histories_on_book_id"
     t.index ["user_id"], name: "index_histories_on_user_id"
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

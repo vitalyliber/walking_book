@@ -1,4 +1,4 @@
-class CoverUploader < CarrierWave::Uploader::Base
+class ImageUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -7,6 +7,11 @@ class CoverUploader < CarrierWave::Uploader::Base
 
   process optimize: [{ quality: 50 }]
   process :auto_orient
+  process :convert => 'jpg'
+
+  def filename
+    super.chomp(File.extname(super)) + '.jpg'
+  end
 
   # Choose what kind of storage to use for this uploader:
   storage :file
