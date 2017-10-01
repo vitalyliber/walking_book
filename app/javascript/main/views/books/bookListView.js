@@ -1,6 +1,11 @@
-import React, {Component} from 'react'
-import {gql, graphql} from 'react-apollo'
-const per_page = 10
+import React, {Component} from 'react';
+import {gql, graphql} from 'react-apollo';
+import { Layout, Card, Input, Button } from 'element-react';
+import request from 'superagent';
+
+import '../../styles/pages/book-list.sass';
+
+const per_page = 9
 
 const MoreBooksQuery = gql`
   query books_connection($cursor: Int!) {
@@ -10,6 +15,8 @@ const MoreBooksQuery = gql`
         id
         title
         description
+        cover(size: original)
+        authorName
       }
       pageInfo{
         endCursor
@@ -27,6 +34,8 @@ const query = gql`
         id
         title
         description
+        cover(size: original)
+        authorName
       }
       pageInfo{
         endCursor
@@ -38,6 +47,37 @@ const query = gql`
 
 class bookListView extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      locationReceived: false,
+      lat: null,
+      lng: null,
+      city: null
+    }
+  };
+
+  getLocation = () => {
+    request('GET', 'https://freegeoip.net/json/').then((res, err) => {
+      if (err) {
+        console.log('can not get latitude and longitude')
+      }
+      if (res) {
+        this.setState({
+          lat: res.body.latitude,
+          lng: res.body.longitude,
+          city: res.body.city
+        })
+
+      }
+    })
+  };
+
+  componentDidMount() {
+    this.getLocation()
+  }
+
   render() {
     const {data} = this.props
     if (data.loading) {
@@ -46,10 +86,23 @@ class bookListView extends Component {
     return (
       <div>
         bookListView
-        {data.booksConnection.books.map((item, index) =>(
-          <p key={item.id}>{item.title} - {item.id}</p>
-          )
-        )}
+        <Layout.Row gutter="30">
+          {data.booksConnection.books.map((item, index) =>(
+            <Layout.Col xs="24" sm="24" md="8" lg="8" key={item.id}>
+              <Card className="book-card">
+                <div className="book-title">
+                  <div>{item.title}</div>
+                  <div>{item.authorName}</div>
+                </div>
+                <div className="book-cover-wrapper">
+                  <img src={item.cover} className="book-card-cover" />
+                </div>
+              </Card>
+            </Layout.Col>
+            )
+          )}
+        </Layout.Row>
+
         { data.booksConnection.pageInfo.hasNextPage ? (
             <button onClick={data.loadMoreEntries}>loadMoreEntries</button>
           ) : (

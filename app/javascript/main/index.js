@@ -17,7 +17,8 @@ import bookListView from './views/books/bookListView'
 import bookEditView from './views/books/bookEditView'
 import homeView from './views/homeView'
 import notFoundView from './views/notFoundView'
-
+import Navbar from './views/common/navbar'
+import './styles/common.sass'
 import 'element-theme-default'
 // import { Layout, Button } from 'element-react' #example
 
@@ -40,14 +41,17 @@ ReactDOM.render(
   <ApolloProvider client={client}>
     <Router>
       <div>
-        <Switch>
-          <Route exact path="/" component={homeView}/>
-          <Route exact path="/books" component={bookListView}/>
-          <Route exact path="/books/:id" component={bookDetailView}/>
-          <Route exact path="/books/:id/edit" component={bookEditView}/>
-          <Route exact path="/books/new" component={bookNewView}/>
-          <Route path="*" component={notFoundView} />
-        </Switch>
+        <Navbar/>
+        <div className="main-container">
+          <Switch>
+            <Route exact path="/" component={homeView}/>
+            <Route exact path="/books" component={bookListView}/>
+            <Route exact path="/books/:id" component={bookDetailView}/>
+            <Route exact path="/books/edit" component={bookEditView}/>
+            <Route exact path="/books/new" component={bookNewView}/>
+            <Route path="*" component={notFoundView} />
+          </Switch>
+        </div>
       </div>
     </Router>
   </ApolloProvider>,
