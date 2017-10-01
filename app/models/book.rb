@@ -7,6 +7,7 @@ class Book < ApplicationRecord
   enum category: [:fiction, :education, :children, :other]
 
   belongs_to :user
+  belongs_to :image
   has_many   :histories
   has_many   :users, through: :histories
 
@@ -15,8 +16,6 @@ class Book < ApplicationRecord
 
   after_update :create_history
   after_create :create_history
-
-  mount_uploader :cover, CoverUploader
 
   acts_as_mappable :default_units => :kms,
                    :default_formula => :sphere,

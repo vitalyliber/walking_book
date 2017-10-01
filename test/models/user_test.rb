@@ -10,6 +10,7 @@ class UserTest < ActiveSupport::TestCase
     book.author_name = 'Joanne Rowling'
     book.category = :fiction
     book.user = user
+    book.image = create :image
 
     # An user without coordinates can't create new book
     assert_equal false, book.save
