@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {gql, graphql} from 'react-apollo';
-import { Layout, Card } from 'element-react';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import { Layout, Card, Input, Button } from 'element-react';
+import request from 'superagent';
 
 import '../../styles/pages/book-list.sass';
 
@@ -15,7 +15,7 @@ const MoreBooksQuery = gql`
         id
         title
         description
-        cover
+        cover(size: original)
         authorName
       }
       pageInfo{
@@ -34,7 +34,7 @@ const query = gql`
         id
         title
         description
-        cover
+        cover(size: original)
         authorName
       }
       pageInfo{
@@ -52,30 +52,26 @@ class bookListView extends Component {
 
     this.state = {
       locationReceived: false,
-      latitude: null,
-      longitude: null
+      lat: null,
+      lng: null,
+      city: null
     }
-  }
-
+  };
 
   getLocation = () => {
-    if (!navigator.geolocation){
-      return;
-    }
+    request('GET', 'https://freegeoip.net/json/').then((res, err) => {
+      if (err) {
+        console.log('can not get latitude and longitude')
+      }
+      if (res) {
+        this.setState({
+          lat: res.body.latitude,
+          lng: res.body.longitude,
+          city: res.body.city
+        })
 
-    let success = (position) => {
-      this.setState({
-        locationReceived: true,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      })
-    };
-
-    let error = () => {
-      console.log('bad')
-    };
-
-    navigator.geolocation.getCurrentPosition(success, error);
+      }
+    })
   };
 
   componentDidMount() {
