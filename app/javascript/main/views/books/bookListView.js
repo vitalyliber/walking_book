@@ -8,8 +8,8 @@ import '../../styles/pages/book-list.sass';
 const per_page = 9
 
 const MoreBooksQuery = gql`
-  query books_connection($cursor: Int!) {
-    booksConnection(after: $cursor, first: ${per_page}){
+  query books_connection($cursor: Int!, $lat: Float, $lng: Float) {
+    booksConnection(after: $cursor, first: ${per_page}, lat: $lat, lng: $lng){
       totalCount
       books{
         id
@@ -27,21 +27,21 @@ const MoreBooksQuery = gql`
 `
 
 const query = gql`
-  query{
-    booksConnection(first: ${per_page}){
-      totalCount
-      books{
-        id
-        title
-        description
-        cover(size: original)
-        authorName
+  query books_connection($lat: Float, $lng: Float) {
+      booksConnection(first: ${per_page}, lat: $lat, lng: $lng){
+        totalCount
+        books{
+          id
+          title
+          description
+          cover(size: original)
+          authorName
+        }
+        pageInfo{
+          endCursor
+          hasNextPage
+        }
       }
-      pageInfo{
-        endCursor
-        hasNextPage
-      }
-    }
   }
 `
 
@@ -70,6 +70,10 @@ class bookListView extends Component {
           city: res.body.city
         })
 
+        this.props.data.refetch({
+          lat: res.body.latitude,
+          lng: res.body.longitude
+        })
       }
     })
   };
@@ -80,9 +84,12 @@ class bookListView extends Component {
 
   render() {
     const {data} = this.props
-    if (data.loading) {
+    const {lat, lng} = this.state
+
+    if (data.loading && !lat && !lng) {
       return <div>Loading...</div>
     }
+    console.log(data)
     return (
       <div>
         bookListView
@@ -117,12 +124,13 @@ class bookListView extends Component {
 const bookListView1 = graphql(query, {
   // This function re-runs every time `data` changes, including after `updateQuery`,
   // meaning our loadMoreEntries function will always have the right cursor
-  props({ data: { loading, booksConnection, fetchMore, pageInfo } }) {
+  props({ data: { loading, booksConnection, fetchMore, pageInfo, refetch } }) {
     return {
       data: {
         loading,
         booksConnection,
         pageInfo,
+        refetch,
         loadMoreEntries: () => {
           return fetchMore({
             query: MoreBooksQuery,

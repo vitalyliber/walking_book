@@ -17,7 +17,7 @@ Types::QueryType = GraphQL::ObjectType.define do
       has_next_page = false
       if args[:first].present?
         end_cursor = books&.last&.id || 0
-        has_next_page = resolve_books_connection(args.to_h.merge(after: end_cursor, first: 1)).present?
+        has_next_page = resolve_books_connection(args.to_h.merge(after: end_cursor, first: 1).symbolize_keys).present?
       end
       if end_cursor.blank?
         end_cursor = books&.last&.id || 0
@@ -49,10 +49,10 @@ Types::QueryType = GraphQL::ObjectType.define do
 end
 
 def resolve_books_connection args
-  books = Book.includes(:user)
+  books = Book.includes(:user, :image)
 
   if args[:lat].present? and args[:lng].present?
-    books = books.within(5, :origin => [args[:lat], args[:lng]])
+    books = books.within(10, :origin => [args[:lat], args[:lng]])
   end
 
   if args[:query].present?
