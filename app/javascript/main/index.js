@@ -18,10 +18,9 @@ import bookEditView from './views/books/bookEditView'
 import homeView from './views/homeView'
 import notFoundView from './views/notFoundView'
 import Navbar from './views/common/navbar'
-import './styles/common.sass'
+import './styles/app.scss'
 import 'element-theme-default'
 // import { Layout, Button } from 'element-react' #example
-
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -42,7 +41,7 @@ ReactDOM.render(
     <Router>
       <div>
         <Navbar/>
-        <div className="main-container">
+        <div className="main-container limited">
           <Switch>
             <Route exact path="/" component={homeView}/>
             <Route exact path="/books" component={bookListView}/>
