@@ -3,11 +3,13 @@ module Types
     name 'Book'
     description 'a description'
 
-    field :id, !types.Int
-    field :title, !types.String
+    field :id,          !types.Int
+    field :title,       !types.String
     field :description, !types.String
-    field :category, !types.String
-    field :status, !types.String
+    field :category,    !types.String
+    field :status,      !types.String
+    field :lat,         !types.Float
+    field :lng,         !types.Float
     field :cover do
       type !types.String
       argument :size, Types::CoverEnum
