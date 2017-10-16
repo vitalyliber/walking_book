@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {gql, graphql} from 'react-apollo';
-import { Layout, Card, Input, Button } from 'element-react';
+import { Layout, Card, Button } from 'element-react';
+import { Link } from 'react-router-dom';
 import request from 'superagent';
 
 import '../../styles/pages/book-list.sass';
@@ -81,34 +82,41 @@ class bookListView extends Component {
   render() {
     const {data} = this.props
     if (data.loading) {
-      return <div>Loading...</div>
+      return (
+        <div className="loading-icon">
+          <i className="el-icon-loading"></i>
+          <div>Loading...</div>
+        </div>
+      )
     }
     return (
       <div>
-        bookListView
         <Layout.Row gutter="30">
           {data.booksConnection.books.map((item, index) =>(
             <Layout.Col xs="24" sm="24" md="8" lg="8" key={item.id}>
-              <Card className="book-card">
-                <div className="book-title">
-                  <div>{item.title}</div>
-                  <div>{item.authorName}</div>
-                </div>
-                <div className="book-cover-wrapper">
-                  <img src={item.cover} className="book-card-cover" />
-                </div>
-              </Card>
+              <Link to={`/books/${item.id}`}>
+                <Card className="book-card">
+                  <div className="book-title">
+                    <div className='title'>{item.title}</div>
+                    <div className='author'>{item.authorName}</div>
+                  </div>
+                  <div className="book-cover-wrapper">
+                    <img src={item.cover} className="book-card-cover" />
+                  </div>
+                </Card>
+              </Link>
             </Layout.Col>
             )
           )}
         </Layout.Row>
-
-        { data.booksConnection.pageInfo.hasNextPage ? (
-            <button onClick={data.loadMoreEntries}>loadMoreEntries</button>
-          ) : (
-            <p>that's all!</p>
-          )
-        }
+        <Layout.Row className='load-more-section'>
+          { data.booksConnection.pageInfo.hasNextPage ? (
+              <Button className="primary-btn" size="large" onClick={data.loadMoreEntries}> More </Button>
+            ) : (
+              <p>That's all!</p>
+            )
+          }
+        </Layout.Row>
       </div>
     )
   }

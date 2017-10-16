@@ -1,8 +1,7 @@
 import React from 'react';
-import { Layout, Card, Collapse, Button } from 'element-react';
+import { Layout, Button } from 'element-react';
 import {gql, graphql} from 'react-apollo';
 import { Link } from 'react-router-dom';
-import map from '../../images/map.png'
 import MapComponent from '../../views/mapComponent'
 
 const query = gql`
@@ -54,12 +53,26 @@ class BookDetailView extends React.Component {
             <div className="book-title">{data.book.title}</div>
             <p className="book-description">{data.book.description}</p>
           </div>
-          <Button type="success" size="large">Получить</Button>
+          <Button className="primary-btn" size="large">Получить</Button>
         </Layout.Row>
-
+        <Layout.Row>
+          <p className="current-location"> Текущий владелец: </p>
+          <Link to={`/users/${data.book.user.id}`}>
+            <div className="owner-card">
+              <div className='owner-card-image'>
+                <img src={data.book.cover}/>
+              </div>
+              <div className='owner-card-info'>
+                <p> {data.book.user.first_name} {data.book.user.last_name}</p>
+                <p> Город </p>
+              </div>
+            </div>
+          </Link>
+        </Layout.Row>
         <Layout.Row className="map-container">
           <MapComponent book={data.book}/>
-
+        </Layout.Row>
+        <Layout.Row className="map-container">
         </Layout.Row>
       </div>
     )

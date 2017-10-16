@@ -1,0 +1,46 @@
+.modal-dialog
+  .el-dialog
+    width: 30rem
+
+    .el-dialog__header .el-dialog__title
+      color: #6ac8cf
+      font-weight: 300
+      font-size: 1.4rem
+
+    .el-dialog__body
+      padding: 20px 30px
+
+    .dialog-footer
+      text-align: center
+      span
+        font-size: 1rem
+        color: #8492A6
+        &.clickable
+          color: #6ac8cf
+
+  @media (max-width: 31rem)
+    .el-dialog
+      width: 100%
+
+      .el-button
+        width: 100%
+        font-size: 1rem
+        margin-left: 0
+
+  @media (max-width: 380px)
+    .el-dialog .el-dialog__body .el-form
+      .el-form-item
+        margin-bottom: 0
+        .el-form-item__label
+          width: 100% !important
+          text-align: left
+        .el-form-item__content
+          margin-left: 0 !important
+
+          &:last-of-type
+            margin-top: 1rem
+
+        @media (max-width: 330px)
+          .el-button
+            display: block
+            width: 100%
