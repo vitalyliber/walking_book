@@ -6,6 +6,20 @@
 
 ## How to start application for developing
 
+Install postgres dependencies:
+
+_For mac_
+
+```
+brew install libpq
+```
+
+_For linux_
+
+```
+apt-get install postgresql-client
+```
+
 Start postgres container:
 
 ```

@@ -45,9 +45,9 @@ ReactDOM.render(
           <Switch>
             <Route exact path="/" component={homeView}/>
             <Route exact path="/books" component={bookListView}/>
-            <Route exact path="/books/:id" component={bookDetailView}/>
             <Route exact path="/books/edit" component={bookEditView}/>
             <Route exact path="/books/new" component={bookNewView}/>
+            <Route exact path="/books/:id" component={bookDetailView}/>
             <Route path="*" component={notFoundView} />
           </Switch>
         </div>
